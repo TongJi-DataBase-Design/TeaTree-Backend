@@ -35,8 +35,8 @@ public class ImageUploadController {
     protected void uploadImage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 // The route on which the file is saved.
-        System.out.println("这里被执行了");
-        File uploads = new File("/PATH TO/YOUR PROJECT/WORKSPACE/WEBCONTENT/WEB-INF/SOME FOLDER/");
+
+        File uploads = new File("");
         String multipartContentType = "multipart/form-data";
         String fieldname = "file";
         Part filePart = request.getPart(fieldname);
@@ -109,7 +109,9 @@ public class ImageUploadController {
             File file = new File(uploads, name);
 
             try (InputStream input = filePart.getInputStream()) {
+                System.out.println("before" + input);
                 Files.copy(input, file.toPath());
+                System.out.println("after" + file.toPath());
             } catch (Exception e) {
                 writer.println("<br/> ERROR: " + e);
             }
