@@ -16,22 +16,21 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 /**
- * TODO:此处写ImageUploadController类的描述
+ * VideoController类
  *
  * @author 汪明杰
- * @date 2022/3/28 15:06
+ * @date 2022/3/28 17:43
  */
+
 @RestController
-@RequestMapping("/api/image")
-public class ImageUploadController {
+@RequestMapping("/api/video")
+public class VideoController {
     private static final long serialVersionUID = 1L;
 
     @RequestMapping(value = "/files/{fileName}", method = RequestMethod.GET)
@@ -39,28 +38,27 @@ public class ImageUploadController {
             throws ServletException, IOException
     {
         System.out.println(fileName);
-        File file = new File("./files/images", fileName);
+        File file = new File("./files/videos", fileName);
 //        response.setHeader("Content-Type", getServletContext().getMimeType(file));
         response.setHeader("Content-Length", String.valueOf(file.length()));
         response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
         Files.copy(file.toPath(), response.getOutputStream());
     }
 
-
     @RequestMapping(value="/upload", method = RequestMethod.POST)
-    protected void uploadImage(HttpServletRequest request, HttpServletResponse response)
+    protected void uploadVideo(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        File uploads = new File("./files/images/");
+// The route on which the file is saved.
+        File uploads = new File("./files/videos/");
+
         String multipartContentType = "multipart/form-data";
         String fieldname = "file";
         Part filePart = request.getPart(fieldname);
-        Map<Object, Object> responseData = null;
 
 // Create path components to save the file.
+        Map< Object, Object > responseData;
         final PrintWriter writer = response.getWriter();
-
         String linkName = null;
-        String name = null;
 
         try {
             // Check content type.
@@ -70,57 +68,49 @@ public class ImageUploadController {
                 throw new Exception("Invalid contentType. It must be " + multipartContentType);
             }
 
-            // Get file Part based on field name and also image extension.
-            filePart = request.getPart(fieldname);
+            // Get file Part based on field name and also file extension.
             String type = filePart.getContentType();
             type = type.substring(type.lastIndexOf("/") + 1);
 
             // Generate random name.
             String extension = type;
             extension = (extension != null && extension != "") ? "." + extension : extension;
-            name = UUID.randomUUID().toString() + extension ;
+            String name = UUID.randomUUID().toString() + extension;
 
             // Get absolute server path.
             String absoluteServerPath = uploads + name;
 
             // Create link.
             String path = request.getHeader("referer");
-            // 指定返回文件路径
-            linkName = "http://localhost:8100/api/image/files/" + name;
+            linkName = "http://localhost:8100/api/video/files/" + name;
 
-            // Validate image.
+            // Validate file.
             String mimeType = filePart.getContentType();
             String[] allowedExts = new String[] {
-                    "gif",
-                    "jpeg",
-                    "jpg",
-                    "png",
-                    "svg",
-                    "blob"
+                    "mp4",
+                    "webm",
+                    "ogg"
             };
             String[] allowedMimeTypes = new String[] {
-                    "image/gif",
-                    "image/jpeg",
-                    "image/pjpeg",
-                    "image/x-png",
-                    "image/png",
-                    "image/svg+xml"
+                    "video/mp4",
+                    "video/webm",
+                    "video/ogg"
             };
 
             if (!ArrayUtils.contains(allowedExts, FilenameUtils.getExtension(absoluteServerPath)) ||
                     !ArrayUtils.contains(allowedMimeTypes, mimeType.toLowerCase())) {
 
-                // Delete the uploaded image if it dose not meet the validation.
-                File file = new File(uploads + name);
+                // Delete the uploaded file.
+                File file = new File(absoluteServerPath);
+
                 if (file.exists()) {
                     file.delete();
                 }
 
-                throw new Exception("Image does not meet the validation.");
+                throw new Exception("File does not meet the validation.");
             }
 
             // Save the file on server.
-
             File file = new File(uploads, name);
 
             try (InputStream input = filePart.getInputStream()) {
@@ -139,7 +129,6 @@ public class ImageUploadController {
             responseData.put("error", e.toString());
 
         } finally {
-            // Build response data.
             responseData = new HashMap < Object, Object > ();
             responseData.put("link", linkName);
 
