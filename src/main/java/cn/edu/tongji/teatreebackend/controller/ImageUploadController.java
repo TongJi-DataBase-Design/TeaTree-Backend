@@ -1,5 +1,16 @@
-package cn.edu.tongji.teatreebackend.server;
+package cn.edu.tongji.teatreebackend.controller;
 
+import com.google.gson.Gson;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.lang.ArrayUtils;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,46 +20,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.MultipartConfig;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.Part;
-
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.lang.ArrayUtils;
-
-import com.google.gson.Gson;
-
 /**
- * ImageUpload类
+ * TODO:此处写ImageUploadController类的描述
  *
  * @author 汪明杰
- * @date 2022/3/28 14:19
+ * @date 2022/3/28 15:06
  */
-@WebServlet(name = "ImageUploadServlet", urlPatterns = {
-        "/upload_image"
-})
-
-@MultipartConfig
-public class ImageUpload extends HttpServlet {
+@RestController
+@RequestMapping("/api/upload_image")
+public class ImageUploadController {
     private static final long serialVersionUID = 1L;
 
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ImageUpload() {
-        super();
-    }
-
-    /**
-     * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
-     *      response)
-     */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+    @RequestMapping(method = RequestMethod.POST)
+    protected void uploadImage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 // The route on which the file is saved.
         System.out.println("这里被执行了");
@@ -56,7 +40,7 @@ public class ImageUpload extends HttpServlet {
         String multipartContentType = "multipart/form-data";
         String fieldname = "file";
         Part filePart = request.getPart(fieldname);
-        Map <Object, Object> responseData = null;
+        Map<Object, Object> responseData = null;
 
 // Create path components to save the file.
         final PrintWriter writer = response.getWriter();
@@ -136,7 +120,7 @@ public class ImageUpload extends HttpServlet {
                     "trying to upload a file to a protected or nonexistent " +
                     "location.");
             writer.println("<br/> ERROR: " + e.getMessage());
-            responseData = new HashMap < Object, Object > ();
+            responseData = new HashMap< Object, Object >();
             responseData.put("error", e.toString());
 
         } finally {
