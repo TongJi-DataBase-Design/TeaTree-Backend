@@ -3,6 +3,7 @@ package cn.edu.tongji.teatreebackend.controller;
 import com.google.gson.Gson;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.ArrayUtils;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.nio.file.Files;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,16 +30,27 @@ import java.util.UUID;
  * @date 2022/3/28 15:06
  */
 @RestController
-@RequestMapping("/api/upload_image")
+@RequestMapping("/api/image")
 public class ImageUploadController {
     private static final long serialVersionUID = 1L;
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value = "/files/{fileName}", method = RequestMethod.GET)
+    protected void getImage(@PathVariable String fileName, HttpServletResponse response)
+            throws ServletException, IOException
+    {
+        System.out.println(fileName);
+        File file = new File("./files/images", fileName);
+//        response.setHeader("Content-Type", getServletContext().getMimeType(file));
+        response.setHeader("Content-Length", String.valueOf(file.length()));
+        response.setHeader("Content-Disposition", "inline; filename=\"" + file.getName() + "\"");
+        Files.copy(file.toPath(), response.getOutputStream());
+    }
+
+
+    @RequestMapping(value="/upload", method = RequestMethod.POST)
     protected void uploadImage(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-// The route on which the file is saved.
-
-        File uploads = new File("");
+        File uploads = new File("./files/images/");
         String multipartContentType = "multipart/form-data";
         String fieldname = "file";
         Part filePart = request.getPart(fieldname);
@@ -72,7 +86,7 @@ public class ImageUploadController {
             // Create link.
             String path = request.getHeader("referer");
             // 指定返回文件路径
-            linkName = path + "files/" + name;
+            linkName = "http://localhost:8100/api/image/files/" + name;
 
             // Validate image.
             String mimeType = filePart.getContentType();
@@ -110,7 +124,8 @@ public class ImageUploadController {
             File file = new File(uploads, name);
 
             try (InputStream input = filePart.getInputStream()) {
-                System.out.println("before" + input);
+                System.out.println("createFile:");
+                System.out.println(file.toPath());
                 Files.copy(input, file.toPath());
                 System.out.println("after" + file.toPath());
             } catch (Exception e) {
