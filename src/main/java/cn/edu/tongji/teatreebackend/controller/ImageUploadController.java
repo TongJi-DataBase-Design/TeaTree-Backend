@@ -71,6 +71,7 @@ public class ImageUploadController {
 
             // Create link.
             String path = request.getHeader("referer");
+            // 指定返回文件路径
             linkName = path + "files/" + name;
 
             // Validate image.
