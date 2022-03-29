@@ -1,9 +1,13 @@
 package cn.edu.tongji.teatreebackend.service.Implement;
 
+import cn.edu.tongji.teatreebackend.entity.TeaDistributionEntity;
 import cn.edu.tongji.teatreebackend.repository.TeaDistributionRepository;
 import cn.edu.tongji.teatreebackend.service.ArticleService;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.util.HashMap;
 
 /**
  * ArticleServiceImplement类
@@ -11,8 +15,29 @@ import javax.annotation.Resource;
  * @author 汪明杰
  * @date 2022/3/29 0:33
  */
+
+@Service
 public class ArticleServiceImplement implements ArticleService {
 
     @Resource
     TeaDistributionRepository teaDistributionRepository;
+
+    @Override
+    public boolean createArticleInTeaDistribution(HashMap<String,String> param) {
+        TeaDistributionEntity teaDistribution = new TeaDistributionEntity();
+        teaDistribution.setArticleTitle(param.get("title"));
+        teaDistribution.setArticleAbstract(param.get("abstract"));
+        teaDistribution.setArticleContent(param.get("content"));
+        teaDistribution.setArticleSource(param.get("source"));
+        teaDistribution.setArticleTime(new Timestamp(System.currentTimeMillis()));
+        teaDistribution.setTeaDirection(param.get("teaLocation"));
+        teaDistribution.setTeaType(param.get("teaType"));
+        teaDistribution.setClickNum(0);
+        teaDistribution.setIsTop(0);
+
+        teaDistributionRepository.save(teaDistribution);
+
+
+        return true;
+    }
 }
