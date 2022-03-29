@@ -3,10 +3,7 @@ package cn.edu.tongji.teatreebackend.controller;
 import cn.edu.tongji.teatreebackend.service.ArticleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
@@ -28,6 +25,19 @@ public class ArticleController {
     ArticleService articleService;
 
     /**
+     * 根据id在古茶分布板块获取文章
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/distribution", method = RequestMethod.GET)
+    public ResponseEntity<HashMap> getArticleInDistribution(
+            @RequestParam int id
+    ){
+        return new ResponseEntity<>(articleService.getArticleInTeaDistribution(id),
+                HttpStatus.OK);
+    }
+
+    /**
      * 在古茶分布板块创建文章
      * @param param
      * @return
@@ -36,8 +46,9 @@ public class ArticleController {
     public ResponseEntity<Boolean> createArticleInTeaDistribution(
             @RequestBody HashMap<String,String> param
     ){
-        System.out.println(param);
         return new ResponseEntity<>(articleService.createArticleInTeaDistribution(param),
                 HttpStatus.OK);
     }
+
+
 }

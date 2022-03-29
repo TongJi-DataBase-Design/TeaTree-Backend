@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TeaDistributionRepository extends JpaRepository<TeaDistributionEntity,
         Integer> {
-
+    TeaDistributionEntity findFirstById(int id);
 }

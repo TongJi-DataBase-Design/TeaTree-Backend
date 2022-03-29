@@ -6,6 +6,7 @@ import cn.edu.tongji.teatreebackend.service.ArticleService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.util.HashMap;
 
@@ -23,8 +24,20 @@ public class ArticleServiceImplement implements ArticleService {
     TeaDistributionRepository teaDistributionRepository;
 
     @Override
+    public HashMap<String, String> getArticleInTeaDistribution(int id){
+        TeaDistributionEntity teaDistribution =
+                teaDistributionRepository.findFirstById(id);
+        HashMap<String, String> res = new HashMap<>();
+        res.put("title", teaDistribution.getArticleTitle());
+        res.put("abstract", teaDistribution.getArticleAbstract());
+        res.put("content", teaDistribution.getArticleContent());
+        return res;
+    }
+
+    @Override
     public boolean createArticleInTeaDistribution(HashMap<String,String> param) {
         TeaDistributionEntity teaDistribution = new TeaDistributionEntity();
+
         teaDistribution.setArticleTitle(param.get("title"));
         teaDistribution.setArticleAbstract(param.get("abstract"));
         teaDistribution.setArticleContent(param.get("content"));
@@ -35,9 +48,11 @@ public class ArticleServiceImplement implements ArticleService {
         teaDistribution.setClickNum(0);
         teaDistribution.setIsTop(0);
 
-        teaDistributionRepository.save(teaDistribution);
 
+        teaDistributionRepository.save(teaDistribution);
 
         return true;
     }
+
+
 }

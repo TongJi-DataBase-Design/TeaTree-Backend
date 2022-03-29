@@ -7,5 +7,7 @@ import java.util.HashMap;
 @Service
 public interface ArticleService {
 
+    HashMap<String, String> getArticleInTeaDistribution(int id);
+
     boolean createArticleInTeaDistribution(HashMap<String,String> param);
 }
