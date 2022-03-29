@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
+
 /**
  * ArticleController类
  *
@@ -20,11 +22,10 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/article")
 public class ArticleController {
 
-    @RequestMapping(value = "/distribution", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> createArticleInTeaDistribution(
-            TeaDistributionEntity teaDistribution
-    ){
-
-        return new ResponseEntity<>(true, HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/distribution", method = RequestMethod.POST)
+//    public ResponseEntity<Boolean> createArticleInTeaDistribution(
+//            HashMap param
+//    ){
+//        return new ResponseEntity<>(true, HttpStatus.OK);
+//    }
 }
