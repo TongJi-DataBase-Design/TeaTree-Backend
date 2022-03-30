@@ -3,6 +3,8 @@ package cn.edu.tongji.teatreebackend.service;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public interface ArticleService {
@@ -14,4 +16,6 @@ public interface ArticleService {
     int createArticleInTeaDistribution(HashMap<String,String> param);
 
     boolean increaseArticleClickNumInDistribution(int id);
+
+    Map<String,Object> getArticleListInDistribution(int pageNum);
 }

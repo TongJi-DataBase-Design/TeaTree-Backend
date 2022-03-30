@@ -7,7 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * ArticleController类
@@ -35,6 +37,19 @@ public class ArticleController {
             @RequestParam int id
     ){
         return new ResponseEntity<>(articleService.getArticleInTeaDistribution(id),
+                HttpStatus.OK);
+    }
+
+    /**
+     * 根据pageNum页码获取当前页的帖子id和帖子总数
+     * @param pageNum
+     * @return
+     */
+    @RequestMapping(value = "/distribution/list", method = RequestMethod.GET)
+    public ResponseEntity<Map> getArticleListInDistribution(
+            @RequestParam int pageNum
+    ){
+        return new ResponseEntity<>(articleService.getArticleListInDistribution(pageNum),
                 HttpStatus.OK);
     }
 

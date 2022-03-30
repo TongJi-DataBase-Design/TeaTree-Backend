@@ -25,7 +25,6 @@ public class TeaDistributionEntity {
     private String teaDirection;
     private String teaType;
 
-    @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
     @Column(name = "id")
     public int getId() {

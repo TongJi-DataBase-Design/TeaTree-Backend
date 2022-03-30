@@ -3,12 +3,17 @@ package cn.edu.tongji.teatreebackend.service.Implement;
 import cn.edu.tongji.teatreebackend.entity.TeaDistributionEntity;
 import cn.edu.tongji.teatreebackend.repository.TeaDistributionRepository;
 import cn.edu.tongji.teatreebackend.service.ArticleService;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * ArticleServiceImplement类
@@ -22,6 +27,8 @@ public class ArticleServiceImplement implements ArticleService {
 
     @Resource
     TeaDistributionRepository teaDistributionRepository;
+
+    private static final int pageSize = 10;
 
     @Override
     public HashMap<String, String> getArticleInTeaDistribution(int id){
@@ -85,5 +92,23 @@ public class ArticleServiceImplement implements ArticleService {
         teaDistribution.setClickNum((teaDistribution.getClickNum() + 1));
         teaDistributionRepository.save(teaDistribution);
         return true;
+    }
+
+    @Override
+    public Map<String,Object> getArticleListInDistribution(int pageNum){
+        Pageable pageable = PageRequest.of(pageNum, pageSize);
+        List<TeaDistributionEntity> teaDistributionEntities =
+                teaDistributionRepository
+                        .findAllByIsTopOrderByArticleTimeDesc(0, pageable);
+        // 获取结果id
+        List<Integer> postIds = new ArrayList<>();
+        teaDistributionEntities.forEach((TeaDistributionEntity item)->{
+            postIds.add(item.getId());
+        });
+        Map<String, Object> res = new HashMap<>();
+        res.put("id", postIds);
+        res.put("total", teaDistributionRepository.getTotalPostAmount());
+
+        return res;
     }
 }
