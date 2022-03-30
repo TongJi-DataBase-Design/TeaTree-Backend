@@ -2,6 +2,7 @@ package cn.edu.tongji.teatreebackend.controller;
 
 import cn.edu.tongji.teatreebackend.service.ArticleService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,6 +35,19 @@ public class ArticleController {
             @RequestParam int id
     ){
         return new ResponseEntity<>(articleService.getArticleInTeaDistribution(id),
+                HttpStatus.OK);
+    }
+
+    /**
+     * 根据id在古茶分布板块获取文章预览信息
+     * @param id
+     * @return 文章预览信息
+     */
+    @RequestMapping(value = "/distribution/preview", method = RequestMethod.GET)
+    public ResponseEntity<HashMap> getArticlePreviewInDistribution(
+            @RequestParam int id
+    ){
+        return new ResponseEntity<>(articleService.getArticlePreviewInTeaDistribution(id),
                 HttpStatus.OK);
     }
 

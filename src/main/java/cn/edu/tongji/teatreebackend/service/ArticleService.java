@@ -9,6 +9,8 @@ public interface ArticleService {
 
     HashMap<String, String> getArticleInTeaDistribution(int id);
 
+    HashMap<String, String> getArticlePreviewInTeaDistribution(int id);
+
     int createArticleInTeaDistribution(HashMap<String,String> param);
 
     boolean increaseArticleClickNumInDistribution(int id);

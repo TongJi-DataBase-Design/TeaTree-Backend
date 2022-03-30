@@ -10,6 +10,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class TeaTreeBackendApplication {
 
     public static void main(String[] args) {
+//        System.out.println("sa-token配置成功: "+ SaManager.getConfig());
         SpringApplication.run(TeaTreeBackendApplication.class, args);
     }
 
@@ -22,9 +23,7 @@ public class TeaTreeBackendApplication {
                 registry
                         .addMapping("/**")
                         .allowedOrigins(
-                                "http://localhost:8080",
-                                "http://localhost:9528",
-                                "https://*.guisu.website"
+                                "http://localhost:8080"
                         )
                         .allowedMethods("GET", "POST", "DELETE", "PUT", "OPTIONS")
                         .allowCredentials(true)

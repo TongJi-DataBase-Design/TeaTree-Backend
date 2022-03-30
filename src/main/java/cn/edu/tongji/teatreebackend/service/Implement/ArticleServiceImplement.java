@@ -27,10 +27,32 @@ public class ArticleServiceImplement implements ArticleService {
     public HashMap<String, String> getArticleInTeaDistribution(int id){
         TeaDistributionEntity teaDistribution =
                 teaDistributionRepository.findFirstById(id);
+        if (teaDistribution == null) {
+            return null;
+        }
         HashMap<String, String> res = new HashMap<>();
         res.put("title", teaDistribution.getArticleTitle());
         res.put("abstract", teaDistribution.getArticleAbstract());
         res.put("content", teaDistribution.getArticleContent());
+        return res;
+    }
+
+    @Override
+    public HashMap<String, String> getArticlePreviewInTeaDistribution(int id){
+        TeaDistributionEntity teaDistribution =
+                teaDistributionRepository.findFirstById(id);
+        if (teaDistribution == null) {
+            return null;
+        }
+        HashMap<String, String> res = new HashMap<>();
+        res.put("title", teaDistribution.getArticleTitle());
+        res.put("abstract", teaDistribution.getArticleAbstract());
+        res.put("cover", teaDistribution.getArticleCover());
+        res.put("clickNum", teaDistribution.getClickNum().toString());
+        res.put("teaLocation", teaDistribution.getTeaDirection());
+        res.put("teaType", teaDistribution.getTeaType());
+        res.put("time", teaDistribution.getArticleTime().toString());
+        res.put("source", teaDistribution.getArticleSource());
         return res;
     }
 
