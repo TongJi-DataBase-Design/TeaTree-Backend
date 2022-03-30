@@ -35,9 +35,11 @@ public class ArticleServiceImplement implements ArticleService {
     }
 
     @Override
-    public boolean createArticleInTeaDistribution(HashMap<String,String> param) {
+    public int createArticleInTeaDistribution(HashMap<String,String> param) {
         TeaDistributionEntity teaDistribution = new TeaDistributionEntity();
-
+        // 获取当前文章的id
+        int newId = teaDistributionRepository.findNewArticleId();
+        teaDistribution.setId(newId);
         teaDistribution.setArticleTitle(param.get("title"));
         teaDistribution.setArticleAbstract(param.get("abstract"));
         teaDistribution.setArticleContent(param.get("content"));
@@ -51,8 +53,15 @@ public class ArticleServiceImplement implements ArticleService {
 
         teaDistributionRepository.save(teaDistribution);
 
-        return true;
+        return newId;
     }
 
-
+    @Override
+    public boolean increaseArticleClickNumInDistribution(int id){
+        TeaDistributionEntity teaDistribution =
+                teaDistributionRepository.findFirstById(id);
+        teaDistribution.setClickNum((teaDistribution.getClickNum() + 1));
+        teaDistributionRepository.save(teaDistribution);
+        return true;
+    }
 }

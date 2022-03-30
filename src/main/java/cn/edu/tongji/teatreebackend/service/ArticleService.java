@@ -9,5 +9,7 @@ public interface ArticleService {
 
     HashMap<String, String> getArticleInTeaDistribution(int id);
 
-    boolean createArticleInTeaDistribution(HashMap<String,String> param);
+    int createArticleInTeaDistribution(HashMap<String,String> param);
+
+    boolean increaseArticleClickNumInDistribution(int id);
 }

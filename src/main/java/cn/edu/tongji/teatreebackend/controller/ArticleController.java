@@ -27,7 +27,7 @@ public class ArticleController {
     /**
      * 根据id在古茶分布板块获取文章
      * @param id
-     * @return
+     * @return 文章内容
      */
     @RequestMapping(value = "/distribution", method = RequestMethod.GET)
     public ResponseEntity<HashMap> getArticleInDistribution(
@@ -38,12 +38,25 @@ public class ArticleController {
     }
 
     /**
+     * 增加古茶分布板块中id的文章的 点击量
+     * @param id
+     * @return 增加成功与否
+     */
+    @RequestMapping(value = "/distribution/click", method = RequestMethod.GET)
+    public ResponseEntity<Boolean> increaseArticleClickNumInDistribution(
+            @RequestParam int id
+    ){
+        return new ResponseEntity<>(articleService.increaseArticleClickNumInDistribution(id),
+                HttpStatus.OK);
+    }
+
+    /**
      * 在古茶分布板块创建文章
      * @param param
-     * @return
+     * @return 新帖子id
      */
     @RequestMapping(value = "/distribution", method = RequestMethod.POST)
-    public ResponseEntity<Boolean> createArticleInTeaDistribution(
+    public ResponseEntity<Integer> createArticleInTeaDistribution(
             @RequestBody HashMap<String,String> param
     ){
         return new ResponseEntity<>(articleService.createArticleInTeaDistribution(param),
