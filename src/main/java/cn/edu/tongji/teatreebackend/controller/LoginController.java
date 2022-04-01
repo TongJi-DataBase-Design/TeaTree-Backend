@@ -2,10 +2,14 @@ package cn.edu.tongji.teatreebackend.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.edu.tongji.teatreebackend.service.Implement.JasyptUtilService;
+import cn.edu.tongji.teatreebackend.service.Implement.LoginServiceImplement;
+import cn.edu.tongji.teatreebackend.service.LoginService;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,6 +27,8 @@ import java.util.HashMap;
 @RequestMapping("/api/user/")
 public class LoginController {
 
+    @Resource
+    LoginService loginServiceImplement;
 
     @Deprecated
     @ApiOperation("Customer login")
@@ -35,16 +41,15 @@ public class LoginController {
 
     // 测试登录，浏览器访问： http://localhost:8100/api/user/doLogin
     @RequestMapping(value = "doLogin",method = RequestMethod.POST)
-    public String doLogin(
+    public ResponseEntity<HashMap> doLogin(
             @RequestBody HashMap<String,String> param
             ){
-
-        // 此处仅作模拟示例，真实项目需要从数据库中查询数据进行比对
-        if("zhang".equals(param.get("userName")) && "123456".equals(param.get("passWord"))) {
-            StpUtil.login(10001);
-            return "登录成功";
-        }
-        return "登录失败";
+    try {
+        return new ResponseEntity<>(loginServiceImplement.doLogin(param.get("userName"),param.get("passWord")),HttpStatus.OK);
+    }catch (Exception e){
+        e.printStackTrace();
+        return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+    }
     }
 
     // 查询登录状态，浏览器访问： http://localhost:8100/api/user/isLogin

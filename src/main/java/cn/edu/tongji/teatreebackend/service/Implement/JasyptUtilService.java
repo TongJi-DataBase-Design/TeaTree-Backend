@@ -4,7 +4,14 @@ import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.PBEConfig;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
 
+/**
+ *  JasyptUtilService类
+ *
+ * @author 梁乔
+ * @date 2022/3/31 0:33
+ */
 public class JasyptUtilService {
+
     /**
      * Jasypt生成加密结果
      * @param password 配置文件中设定的加密密
@@ -45,8 +52,8 @@ public class JasyptUtilService {
 
     public static void main(String[] args){
         //加密
-        System.out.println(encyptPwd("jasypt","lq19991212wanzq"));
+        System.out.println(encyptPwd("jasypt","123456"));
         //解密
-        System.out.println(decyptPwd("jasypt","lnzpDZItgjAntHqsYPFTew=="));
+        System.out.println(decyptPwd("jasypt","0T9+N1VQGfxzcRli07NKuw=="));
     }
 }
