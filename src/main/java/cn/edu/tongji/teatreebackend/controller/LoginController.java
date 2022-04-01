@@ -53,9 +53,20 @@ public class LoginController {
     }
 
     // 查询登录状态，浏览器访问： http://localhost:8100/api/user/isLogin
-    @RequestMapping("isLogin")
-    public String isLogin() {
-        return "当前会话是否登录：" + StpUtil.isLogin();
+    @RequestMapping(value = "isLogin",method = RequestMethod.GET)
+    public Boolean isLogin() {
+        return StpUtil.isLogin();
+    }
+
+    @RequestMapping(value = "logOut",method = RequestMethod.GET)
+    public Boolean logOut(){
+        try{
+            StpUtil.logout();
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }
