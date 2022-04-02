@@ -3,7 +3,10 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-files/
+
+### article source file ###
+files/images/*
+files/videos/*
 
 ### STS ###
 .apt_generated
