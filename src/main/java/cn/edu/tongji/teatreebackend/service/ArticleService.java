@@ -18,4 +18,6 @@ public interface ArticleService {
     boolean increaseArticleClickNumInDistribution(int id);
 
     Map<String,Object> getArticleListInDistribution(int pageNum);
+
+    HashMap<String,Object> getArticleGroupsByArticleType(int articleType);
 }

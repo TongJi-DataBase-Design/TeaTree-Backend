@@ -111,4 +111,9 @@ public class ArticleServiceImplement implements ArticleService {
 
         return res;
     }
+
+    @Override
+    public HashMap<String, Object> getArticleGroupsByArticleType(int articleType) {
+        return null;
+    }
 }
