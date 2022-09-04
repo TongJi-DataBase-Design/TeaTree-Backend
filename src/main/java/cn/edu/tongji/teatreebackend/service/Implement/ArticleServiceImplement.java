@@ -71,6 +71,7 @@ public class ArticleServiceImplement implements ArticleService {
         teaDistribution.setId(newId);
         teaDistribution.setArticleTitle(param.get("title"));
         teaDistribution.setArticleAbstract(param.get("abstract"));
+        teaDistribution.setArticleCover(param.get("cover"));
         teaDistribution.setArticleContent(param.get("content"));
         teaDistribution.setArticleSource(param.get("source"));
         teaDistribution.setArticleTime(new Timestamp(System.currentTimeMillis()));
