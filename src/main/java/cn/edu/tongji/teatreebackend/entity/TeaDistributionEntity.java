@@ -24,6 +24,13 @@ public class TeaDistributionEntity {
     private Integer isTop;
     private String teaDirection;
     private String teaType;
+    private String biologyTeaType;
+    private int articleType;
+    private String protectionArticleType;
+    private String cultureArticleType;
+    private String industryArticleType;
+    private String activityArticleType;
+    private Integer teaAge;
 
     @Id
     @Column(name = "id")
@@ -146,5 +153,75 @@ public class TeaDistributionEntity {
     @Override
     public int hashCode() {
         return Objects.hash(id, articleAbstract, articleContent, articleCover, articleSource, articleTime, articleTitle, clickNum, isTop, teaDirection, teaType);
+    }
+
+    @Basic
+    @Column(name = "biology_tea_type")
+    public String getBiologyTeaType() {
+        return biologyTeaType;
+    }
+
+    public void setBiologyTeaType(String biologyTeaType) {
+        this.biologyTeaType = biologyTeaType;
+    }
+
+    @Basic
+    @Column(name = "article_type")
+    public int getArticleType() {
+        return articleType;
+    }
+
+    public void setArticleType(int articleType) {
+        this.articleType = articleType;
+    }
+
+    @Basic
+    @Column(name = "protection_article_type")
+    public String getProtectionArticleType() {
+        return protectionArticleType;
+    }
+
+    public void setProtectionArticleType(String protectionArticleType) {
+        this.protectionArticleType = protectionArticleType;
+    }
+
+    @Basic
+    @Column(name = "culture_article_type")
+    public String getCultureArticleType() {
+        return cultureArticleType;
+    }
+
+    public void setCultureArticleType(String cultureArticleType) {
+        this.cultureArticleType = cultureArticleType;
+    }
+
+    @Basic
+    @Column(name = "industry_article_type")
+    public String getIndustryArticleType() {
+        return industryArticleType;
+    }
+
+    public void setIndustryArticleType(String industryArticleType) {
+        this.industryArticleType = industryArticleType;
+    }
+
+    @Basic
+    @Column(name = "activity_article_type")
+    public String getActivityArticleType() {
+        return activityArticleType;
+    }
+
+    public void setActivityArticleType(String activityArticleType) {
+        this.activityArticleType = activityArticleType;
+    }
+
+    @Basic
+    @Column(name = "tea_age")
+    public Integer getTeaAge() {
+        return teaAge;
+    }
+
+    public void setTeaAge(Integer teaAge) {
+        this.teaAge = teaAge;
     }
 }
