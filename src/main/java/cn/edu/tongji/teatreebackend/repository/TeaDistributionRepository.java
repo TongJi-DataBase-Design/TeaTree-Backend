@@ -18,6 +18,6 @@ public interface TeaDistributionRepository extends JpaRepository<TeaDistribution
     @Query(value = "select count(id) from tea_distribution", nativeQuery = true)
     int getTotalPostAmount();
 
-    @Query(value = "select distinct tea_direction from tea_distribution where ", nativeQuery = true)
+    @Query(value = "select distinct tea_direction from tea_distribution where article_type = ?1", nativeQuery = true)
     List<String> getTeaDirections(int articleType);
 }

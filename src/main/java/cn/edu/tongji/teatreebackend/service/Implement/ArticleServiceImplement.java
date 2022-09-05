@@ -115,6 +115,8 @@ public class ArticleServiceImplement implements ArticleService {
 
     @Override
     public HashMap<String, Object> getArticleGroupsByArticleType(int articleType) {
-        return null;
+        HashMap<String,Object> res = new HashMap<>();
+        res.put("articleGroups", teaDistributionRepository.getTeaDirections(articleType));
+        return res;
     }
 }
