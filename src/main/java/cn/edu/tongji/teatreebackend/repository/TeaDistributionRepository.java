@@ -16,10 +16,12 @@ public interface TeaDistributionRepository extends JpaRepository<TeaDistribution
     int findNewArticleId();
 
     List<TeaDistributionEntity> findAllByIsTopOrderByArticleTimeDesc(int isTop, Pageable pageable);
-
     @Query(value = "select count(id) from tea_distribution", nativeQuery = true)
     int getTotalPostAmount();
 
+    @Query(value = "select distinct tea_direction from tea_distribution where article_type = ?1", nativeQuery = true)
+    List<String> getTeaDirections(int articleType);
+    
     @Query(value = "select * from tea_distribution where article_type = ?1 and is_top = 1", nativeQuery = true)
     List<TeaDistributionEntity> getTopArticles(int articleType);
 

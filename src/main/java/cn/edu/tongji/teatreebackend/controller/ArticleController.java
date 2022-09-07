@@ -42,15 +42,28 @@ public class ArticleController {
     }
 
     /**
+     * 根据文章种类获取文章类别
+     * @param articleType
+     * @return 文章类别数组
+     */
+    @RequestMapping(value = "/articleTypeGroup", method = RequestMethod.GET)
+    public ResponseEntity<HashMap> getArticleGroups(
+            @RequestParam int articleType
+    ){
+        return new ResponseEntity<>(articleService.getArticleGroupsByArticleType(articleType),
+                HttpStatus.OK);
+    }
+
+    /**
      * 根据pageNum页码获取当前页的帖子id和帖子总数
-     * @param pageNum
+     * @param pageNo
      * @return
      */
     @RequestMapping(value = "/distribution/list", method = RequestMethod.GET)
     public ResponseEntity<Map> getArticleListInDistribution(
-            @RequestParam int pageNum
+            @RequestParam int pageNo
     ){
-        return new ResponseEntity<>(articleService.getArticleListInDistribution(pageNum),
+        return new ResponseEntity<>(articleService.getArticleListInDistribution(pageNo),
                 HttpStatus.OK);
     }
 
