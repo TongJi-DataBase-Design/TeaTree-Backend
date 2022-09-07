@@ -1,7 +1,9 @@
 package cn.edu.tongji.teatreebackend.service.Implement;
 
 import cn.edu.tongji.teatreebackend.entity.TeaDistributionEntity;
+import cn.edu.tongji.teatreebackend.entity.TopArticleEntity;
 import cn.edu.tongji.teatreebackend.repository.TeaDistributionRepository;
+import cn.edu.tongji.teatreebackend.repository.TopArticleRepository;
 import cn.edu.tongji.teatreebackend.service.ArticleService;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,6 +29,9 @@ public class ArticleServiceImplement implements ArticleService {
 
     @Resource
     TeaDistributionRepository teaDistributionRepository;
+
+    @Resource
+    TopArticleRepository topArticleRepository;
 
     private static final int pageSize = 10;
 
@@ -169,6 +174,22 @@ public class ArticleServiceImplement implements ArticleService {
         res.put("article_covers", articleCovers);
         res.put("article_times", articleTimes);
         res.put("article_ids", articleIds);
+        return res;
+    }
+
+    public List<HashMap> getHomepageTopArticles() {
+        List<TopArticleEntity> topArticleEntityList = topArticleRepository.getAllTopArticles();
+        List<HashMap> res = new ArrayList<>();
+        topArticleEntityList.forEach((TopArticleEntity topArticleEntity)->{
+            // 根据id获取文章信息
+            TeaDistributionEntity teaDistributionEntity =
+                    teaDistributionRepository.getById(topArticleEntity.getArticleId());
+            HashMap<String, String> article = new HashMap<>();
+            article.put("article_title", teaDistributionEntity.getArticleTitle());
+            article.put("article_cover", teaDistributionEntity.getArticleCover());
+            article.put("article_id", String.valueOf(topArticleEntity.getArticleId()));
+            res.add(article);
+        });
         return res;
     }
 }
