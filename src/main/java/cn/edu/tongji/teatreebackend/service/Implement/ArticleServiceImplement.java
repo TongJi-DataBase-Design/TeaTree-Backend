@@ -123,6 +123,14 @@ public class ArticleServiceImplement implements ArticleService {
         return res;
     }
 
+    @Override
+    public HashMap<String, Object> getArticleGroupsByArticleType(int articleType) {
+        HashMap<String,Object> res = new HashMap<>();
+        res.put("articleGroups", teaDistributionRepository.getTeaDirections(articleType));
+        
+        return res;
+    }
+
     /**
      * 获取首页中制定类别的帖子,返回5个
      * @param articleType

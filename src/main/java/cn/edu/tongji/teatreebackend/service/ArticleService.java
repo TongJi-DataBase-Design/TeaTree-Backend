@@ -20,5 +20,7 @@ public interface ArticleService {
 
     Map<String,Object> getArticleListInDistribution(int pageNum);
 
+    HashMap<String,Object> getArticleGroupsByArticleType(int articleType);
+
     HashMap<String, Object> getHomepageArticles(int articleType);
 }
