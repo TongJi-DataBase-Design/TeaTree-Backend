@@ -135,6 +135,7 @@ public class ArticleServiceImplement implements ArticleService {
         List<String> articleTitles = new ArrayList<>();
         List<String> articleCovers = new ArrayList<>();
         List<String> articleTimes = new ArrayList<>();
+        List<String> articleIds = new ArrayList<>();
 
         // 查看top的帖子
         List<TeaDistributionEntity> toppestArticles =
@@ -143,6 +144,7 @@ public class ArticleServiceImplement implements ArticleService {
             articleTitles.add(toppestArticles.get(i).getArticleTitle());
             articleCovers.add(toppestArticles.get(i).getArticleCover());
             articleTimes.add(toppestArticles.get(i).getArticleTime().toString());
+            articleIds.add(String.valueOf(toppestArticles.get(i).getId()));
         }
         // 获取按时间排序前5的帖子
         List<TeaDistributionEntity> latestArticles =
@@ -152,11 +154,13 @@ public class ArticleServiceImplement implements ArticleService {
             articleTitles.add(article.getArticleTitle());
             articleCovers.add(article.getArticleCover());
             articleTimes.add(article.getArticleTime().toString());
+            articleIds.add(String.valueOf(article.getId()));
         });
 
         res.put("article_titles", articleTitles);
         res.put("article_covers", articleCovers);
         res.put("article_times", articleTimes);
+        res.put("article_ids", articleIds);
         return res;
     }
 }
