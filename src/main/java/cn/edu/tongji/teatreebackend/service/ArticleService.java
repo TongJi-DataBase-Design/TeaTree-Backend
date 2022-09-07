@@ -17,7 +17,7 @@ public interface ArticleService {
 
     boolean increaseArticleClickNumInDistribution(int id);
 
-    Map<String,Object> getArticleListInDistribution(int pageNum);
+    Map<String,Object> getArticleListInDistribution(int pageNum, int pageSize, String keyword, int articleType);
 
     HashMap<String,Object> getArticleGroupsByArticleType(int articleType);
 }

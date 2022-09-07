@@ -54,15 +54,21 @@ public class ArticleController {
     }
 
     /**
-     * 根据pageNum页码获取当前页的帖子id和帖子总数
+     * 根据pageNo页码,页大小,关键字,文章种类获取当前页的帖子id和帖子总数
      * @param pageNo
+     * @param pageSize
+     * @param keyword
+     * @param articleType
      * @return
      */
     @RequestMapping(value = "/distribution/list", method = RequestMethod.GET)
     public ResponseEntity<Map> getArticleListInDistribution(
-            @RequestParam int pageNo
+            @RequestParam int pageNo,
+            @RequestParam int pageSize,
+            @RequestParam String keyword,
+            @RequestParam int articleType
     ){
-        return new ResponseEntity<>(articleService.getArticleListInDistribution(pageNo),
+        return new ResponseEntity<>(articleService.getArticleListInDistribution(pageNo,pageSize,keyword,articleType),
                 HttpStatus.OK);
     }
 
