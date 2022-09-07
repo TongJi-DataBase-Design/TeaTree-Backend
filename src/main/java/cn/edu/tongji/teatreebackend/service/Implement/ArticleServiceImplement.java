@@ -79,6 +79,13 @@ public class ArticleServiceImplement implements ArticleService {
         teaDistribution.setTeaType(param.get("teaType"));
         teaDistribution.setClickNum(0);
         teaDistribution.setIsTop(0);
+        teaDistribution.setBiologyTeaType(param.get("biologyTeaType"));
+        teaDistribution.setArticleType(Integer.valueOf(param.get("articleType")));
+        teaDistribution.setProtectionArticleType(param.get("protectionArticleType"));
+        teaDistribution.setCultureArticleType(param.get("cultureArticleType"));
+        teaDistribution.setIndustryArticleType(param.get("industryArticleType"));
+        teaDistribution.setActivityArticleType(param.get("activityArticleType"));
+        teaDistribution.setTeaAge(Integer.valueOf(param.get("teaAge")));
 
 
         teaDistributionRepository.save(teaDistribution);
