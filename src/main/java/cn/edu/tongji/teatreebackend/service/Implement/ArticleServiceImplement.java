@@ -31,17 +31,13 @@ public class ArticleServiceImplement implements ArticleService {
     private static final int pageSize = 10;
 
     @Override
-    public HashMap<String, String> getArticleInTeaDistribution(int id){
+    public TeaDistributionEntity getArticleInTeaDistribution(int id){
         TeaDistributionEntity teaDistribution =
                 teaDistributionRepository.findFirstById(id);
         if (teaDistribution == null) {
             return null;
         }
-        HashMap<String, String> res = new HashMap<>();
-        res.put("title", teaDistribution.getArticleTitle());
-        res.put("abstract", teaDistribution.getArticleAbstract());
-        res.put("content", teaDistribution.getArticleContent());
-        return res;
+        return teaDistribution;
     }
 
     @Override
@@ -58,6 +54,13 @@ public class ArticleServiceImplement implements ArticleService {
         res.put("clickNum", teaDistribution.getClickNum().toString());
         res.put("teaLocation", teaDistribution.getTeaDirection());
         res.put("teaType", teaDistribution.getTeaType());
+        res.put("biologyTeaType", teaDistribution.getBiologyTeaType());
+        res.put("articleType", String.valueOf(teaDistribution.getArticleType()));
+        res.put("protectionArticleType", teaDistribution.getProtectionArticleType());
+        res.put("cultureArticleType", teaDistribution.getCultureArticleType());
+        res.put("industryArticleType", teaDistribution.getIndustryArticleType());
+        res.put("activityArticleType", teaDistribution.getActivityArticleType());
+        res.put("teaAge", String.valueOf(teaDistribution.getTeaAge()));
         res.put("time", teaDistribution.getArticleTime().toString());
         res.put("source", teaDistribution.getArticleSource());
         return res;
