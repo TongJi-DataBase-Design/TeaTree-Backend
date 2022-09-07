@@ -1,7 +1,9 @@
 package cn.edu.tongji.teatreebackend.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.edu.tongji.teatreebackend.entity.TeaDistributionEntity;
 import cn.edu.tongji.teatreebackend.service.ArticleService;
+import cn.edu.tongji.teatreebackend.service.LoginService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -27,6 +29,9 @@ public class ArticleController {
 
     @Resource
     ArticleService articleService;
+
+    @Resource
+    LoginService loginService;
 
     /**
      * 根据id获取文章全部内容
@@ -102,9 +107,13 @@ public class ArticleController {
     public ResponseEntity<Integer> createArticleInTeaDistribution(
             @RequestBody HashMap<String,String> param
     ){
-        return new ResponseEntity<>(articleService.createArticleInTeaDistribution(param),
-                HttpStatus.OK);
+        if (StpUtil.isLogin()) {
+            return new ResponseEntity<>(articleService.createArticleInTeaDistribution(param),
+                    HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
+
     }
-
-
+    
 }
