@@ -1,5 +1,6 @@
 package cn.edu.tongji.teatreebackend.service;
 
+import cn.edu.tongji.teatreebackend.entity.TeaDistributionEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -9,7 +10,7 @@ import java.util.Map;
 @Service
 public interface ArticleService {
 
-    HashMap<String, String> getArticleInTeaDistribution(int id);
+    TeaDistributionEntity getArticleInTeaDistribution(int id);
 
     HashMap<String, String> getArticlePreviewInTeaDistribution(int id);
 
@@ -20,4 +21,6 @@ public interface ArticleService {
     Map<String,Object> getArticleListInDistribution(int pageNum);
 
     HashMap<String,Object> getArticleGroupsByArticleType(int articleType);
+
+    HashMap<String, Object> getHomepageArticles(int articleType);
 }

@@ -6,7 +6,9 @@ target/
 
 ### article source file ###
 files/images/*
+!files/images/README.md
 files/videos/*
+!files/videos/README.md
 
 ### STS ###
 .apt_generated

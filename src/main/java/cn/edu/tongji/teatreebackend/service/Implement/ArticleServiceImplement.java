@@ -31,17 +31,13 @@ public class ArticleServiceImplement implements ArticleService {
     private static final int pageSize = 10;
 
     @Override
-    public HashMap<String, String> getArticleInTeaDistribution(int id){
+    public TeaDistributionEntity getArticleInTeaDistribution(int id){
         TeaDistributionEntity teaDistribution =
                 teaDistributionRepository.findFirstById(id);
         if (teaDistribution == null) {
             return null;
         }
-        HashMap<String, String> res = new HashMap<>();
-        res.put("title", teaDistribution.getArticleTitle());
-        res.put("abstract", teaDistribution.getArticleAbstract());
-        res.put("content", teaDistribution.getArticleContent());
-        return res;
+        return teaDistribution;
     }
 
     @Override
@@ -58,6 +54,13 @@ public class ArticleServiceImplement implements ArticleService {
         res.put("clickNum", teaDistribution.getClickNum().toString());
         res.put("teaLocation", teaDistribution.getTeaDirection());
         res.put("teaType", teaDistribution.getTeaType());
+        res.put("biologyTeaType", teaDistribution.getBiologyTeaType());
+        res.put("articleType", String.valueOf(teaDistribution.getArticleType()));
+        res.put("protectionArticleType", teaDistribution.getProtectionArticleType());
+        res.put("cultureArticleType", teaDistribution.getCultureArticleType());
+        res.put("industryArticleType", teaDistribution.getIndustryArticleType());
+        res.put("activityArticleType", teaDistribution.getActivityArticleType());
+        res.put("teaAge", String.valueOf(teaDistribution.getTeaAge()));
         res.put("time", teaDistribution.getArticleTime().toString());
         res.put("source", teaDistribution.getArticleSource());
         return res;
@@ -79,6 +82,13 @@ public class ArticleServiceImplement implements ArticleService {
         teaDistribution.setTeaType(param.get("teaType"));
         teaDistribution.setClickNum(0);
         teaDistribution.setIsTop(0);
+        teaDistribution.setBiologyTeaType(param.get("biologyTeaType"));
+        teaDistribution.setArticleType(Integer.valueOf(param.get("articleType")));
+        teaDistribution.setProtectionArticleType(param.get("protectionArticleType"));
+        teaDistribution.setCultureArticleType(param.get("cultureArticleType"));
+        teaDistribution.setIndustryArticleType(param.get("industryArticleType"));
+        teaDistribution.setActivityArticleType(param.get("activityArticleType"));
+        teaDistribution.setTeaAge(Integer.valueOf(param.get("teaAge")));
 
 
         teaDistributionRepository.save(teaDistribution);
@@ -117,6 +127,44 @@ public class ArticleServiceImplement implements ArticleService {
     public HashMap<String, Object> getArticleGroupsByArticleType(int articleType) {
         HashMap<String,Object> res = new HashMap<>();
         res.put("articleGroups", teaDistributionRepository.getTeaDirections(articleType));
+        
+        return res;
+    }
+
+    /**
+     * 获取首页中制定类别的帖子,返回5个
+     * @param articleType
+     * @return
+     */
+    @Override
+    public HashMap<String, Object> getHomepageArticles(int articleType) {
+        HashMap<String, Object> res = new HashMap<>();
+
+        List<String> articleTitles = new ArrayList<>();
+        List<String> articleCovers = new ArrayList<>();
+        List<String> articleTimes = new ArrayList<>();
+
+        // 查看top的帖子
+        List<TeaDistributionEntity> toppestArticles =
+                teaDistributionRepository.getTopArticles(articleType);
+        for (int i = 0; i < 5 && i < toppestArticles.size(); ++i) {
+            articleTitles.add(toppestArticles.get(i).getArticleTitle());
+            articleCovers.add(toppestArticles.get(i).getArticleCover());
+            articleTimes.add(toppestArticles.get(i).getArticleTime().toString());
+        }
+        // 获取按时间排序前5的帖子
+        List<TeaDistributionEntity> latestArticles =
+                teaDistributionRepository.getLatestArticles(articleType,
+                        5 - articleTitles.size());
+        latestArticles.forEach((TeaDistributionEntity article)->{
+            articleTitles.add(article.getArticleTitle());
+            articleCovers.add(article.getArticleCover());
+            articleTimes.add(article.getArticleTime().toString());
+        });
+
+        res.put("article_titles", articleTitles);
+        res.put("article_covers", articleCovers);
+        res.put("article_times", articleTimes);
         return res;
     }
 }

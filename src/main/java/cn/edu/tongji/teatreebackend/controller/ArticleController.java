@@ -1,5 +1,6 @@
 package cn.edu.tongji.teatreebackend.controller;
 
+import cn.edu.tongji.teatreebackend.entity.TeaDistributionEntity;
 import cn.edu.tongji.teatreebackend.service.ArticleService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
@@ -28,12 +29,12 @@ public class ArticleController {
     ArticleService articleService;
 
     /**
-     * 根据id在古茶分布板块获取文章
+     * 根据id获取文章全部内容
      * @param id
      * @return 文章内容
      */
     @RequestMapping(value = "/distribution", method = RequestMethod.GET)
-    public ResponseEntity<HashMap> getArticleInDistribution(
+    public ResponseEntity<TeaDistributionEntity> getArticleInDistribution(
             @RequestParam int id
     ){
         return new ResponseEntity<>(articleService.getArticleInTeaDistribution(id),
@@ -93,11 +94,11 @@ public class ArticleController {
     }
 
     /**
-     * 在古茶分布板块创建文章
+     * 创建文章
      * @param param
      * @return 新帖子id
      */
-    @RequestMapping(value = "/distribution", method = RequestMethod.POST)
+    @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity<Integer> createArticleInTeaDistribution(
             @RequestBody HashMap<String,String> param
     ){
