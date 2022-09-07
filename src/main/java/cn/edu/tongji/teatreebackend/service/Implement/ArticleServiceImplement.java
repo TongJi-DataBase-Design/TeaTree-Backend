@@ -122,4 +122,41 @@ public class ArticleServiceImplement implements ArticleService {
 
         return res;
     }
+
+    /**
+     * 获取首页中制定类别的帖子,返回5个
+     * @param articleType
+     * @return
+     */
+    @Override
+    public HashMap<String, Object> getHomepageArticles(int articleType) {
+        HashMap<String, Object> res = new HashMap<>();
+
+        List<String> articleTitles = new ArrayList<>();
+        List<String> articleCovers = new ArrayList<>();
+        List<String> articleTimes = new ArrayList<>();
+
+        // 查看top的帖子
+        List<TeaDistributionEntity> toppestArticles =
+                teaDistributionRepository.getTopArticles(articleType);
+        for (int i = 0; i < 5 && i < toppestArticles.size(); ++i) {
+            articleTitles.add(toppestArticles.get(i).getArticleTitle());
+            articleCovers.add(toppestArticles.get(i).getArticleCover());
+            articleTimes.add(toppestArticles.get(i).getArticleTime().toString());
+        }
+        // 获取按时间排序前5的帖子
+        List<TeaDistributionEntity> latestArticles =
+                teaDistributionRepository.getLatestArticles(articleType,
+                        5 - articleTitles.size());
+        latestArticles.forEach((TeaDistributionEntity article)->{
+            articleTitles.add(article.getArticleTitle());
+            articleCovers.add(article.getArticleCover());
+            articleTimes.add(article.getArticleTime().toString());
+        });
+
+        res.put("article_titles", articleTitles);
+        res.put("article_covers", articleCovers);
+        res.put("article_times", articleTimes);
+        return res;
+    }
 }
