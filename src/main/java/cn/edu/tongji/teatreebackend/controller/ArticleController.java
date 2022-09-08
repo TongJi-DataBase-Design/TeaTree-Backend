@@ -86,6 +86,23 @@ public class ArticleController {
     }
 
     /**
+     * 更改板块中文章置顶状态
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/top", method = RequestMethod.POST)
+    public ResponseEntity<Boolean> changeArticleTopStatus(
+            @RequestParam int id
+    ) {
+        if (StpUtil.isLogin()) {
+            return new ResponseEntity<>(articleService.changeArticleTopStatus(id),
+                    HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
+        }
+    }
+
+    /**
      * 增加古茶分布板块中id的文章的 点击量
      * @param id
      * @return 增加成功与否
@@ -113,7 +130,18 @@ public class ArticleController {
         } else {
             return new ResponseEntity<>(null, HttpStatus.FORBIDDEN);
         }
+    }
 
+    @RequestMapping(method = RequestMethod.DELETE)
+    public ResponseEntity<Boolean> deleteArticleById(
+            @RequestParam int id
+    ) {
+        if (StpUtil.isLogin()) {
+            return new ResponseEntity<>(articleService.deleteArticleById(id),
+                    HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(false, HttpStatus.FORBIDDEN);
+        }
     }
 
 }

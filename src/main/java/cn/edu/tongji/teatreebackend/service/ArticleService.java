@@ -31,4 +31,8 @@ public interface ArticleService {
     String addHomepageTopArticle(int articleId);
 
     Boolean deleteHomepageTopArticle(int articleId);
+
+    Boolean changeArticleTopStatus(int id);
+
+    Boolean deleteArticleById(int id);
 }

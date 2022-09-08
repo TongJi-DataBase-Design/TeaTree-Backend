@@ -233,4 +233,22 @@ public class ArticleServiceImplement implements ArticleService {
         topArticleRepository.delete(topArticleEntity);
         return true;
     }
+
+    public Boolean changeArticleTopStatus(int id) {
+        TeaDistributionEntity teaDistribution = teaDistributionRepository.findFirstById(id);
+        if (teaDistribution == null) {
+            return false;
+        }
+        teaDistribution.setIsTop(1 - teaDistribution.getIsTop());
+        teaDistributionRepository.save(teaDistribution);
+        return true;
+    }
+
+    public Boolean deleteArticleById(int id) {
+        TeaDistributionEntity teaDistribution = teaDistributionRepository.findFirstById(id);
+        if (teaDistribution != null) {
+            teaDistributionRepository.delete(teaDistribution);
+        }
+        return true;
+    }
 }
