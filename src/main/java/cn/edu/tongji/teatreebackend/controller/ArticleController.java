@@ -1,5 +1,6 @@
 package cn.edu.tongji.teatreebackend.controller;
 
+import cn.edu.tongji.teatreebackend.Dtos.SearchConditionsDto;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.edu.tongji.teatreebackend.entity.TeaDistributionEntity;
 import cn.edu.tongji.teatreebackend.service.ArticleService;
@@ -60,15 +61,14 @@ public class ArticleController {
     }
 
     /**
-     * 根据pageNum页码获取当前页的帖子id和帖子总数
-     * @param pageNo
+     * 根据pageNo页码,页大小,关键字,文章种类获取当前页的帖子id和帖子总数
      * @return
      */
-    @RequestMapping(value = "/distribution/list", method = RequestMethod.GET)
+    @RequestMapping(value = "/distribution/list", method = RequestMethod.POST)
     public ResponseEntity<Map> getArticleListInDistribution(
-            @RequestParam int pageNo
-    ){
-        return new ResponseEntity<>(articleService.getArticleListInDistribution(pageNo),
+            @RequestBody SearchConditionsDto searchConditions
+            ){
+        return new ResponseEntity<>(articleService.getArticleListInDistribution(searchConditions),
                 HttpStatus.OK);
     }
 
