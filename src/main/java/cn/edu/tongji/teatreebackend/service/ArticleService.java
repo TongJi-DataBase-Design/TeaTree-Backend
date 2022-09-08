@@ -1,8 +1,10 @@
 package cn.edu.tongji.teatreebackend.service;
 
+import cn.edu.tongji.teatreebackend.Dtos.SearchConditionsDto;
 import cn.edu.tongji.teatreebackend.entity.TeaDistributionEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +20,7 @@ public interface ArticleService {
 
     boolean increaseArticleClickNumInDistribution(int id);
 
-    Map<String,Object> getArticleListInDistribution(int pageNum, int pageSize, String keyword, int articleType);
+    Map<String,Object> getArticleListInDistribution(SearchConditionsDto searchConditionsDto);
 
     HashMap<String,Object> getArticleGroupsByArticleType(int articleType);
 
