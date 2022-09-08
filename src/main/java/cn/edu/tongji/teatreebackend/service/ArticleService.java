@@ -25,4 +25,6 @@ public interface ArticleService {
     HashMap<String,Object> getArticleGroupsByArticleType(int articleType);
 
     HashMap<String, Object> getHomepageArticles(int articleType);
+
+    List<HashMap> getHomepageTopArticles();
 }

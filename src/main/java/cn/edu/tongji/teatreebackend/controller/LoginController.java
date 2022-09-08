@@ -44,12 +44,12 @@ public class LoginController {
     public ResponseEntity<HashMap> doLogin(
             @RequestBody HashMap<String,String> param
             ){
-    try {
-        return new ResponseEntity<>(loginServiceImplement.doLogin(param.get("userName"),param.get("passWord")),HttpStatus.OK);
-    }catch (Exception e){
-        e.printStackTrace();
-        return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
-    }
+        try {
+            return new ResponseEntity<>(loginServiceImplement.doLogin(param.get("userName"),param.get("passWord")),HttpStatus.OK);
+        }catch (Exception e){
+            e.printStackTrace();
+            return new ResponseEntity<>(null, HttpStatus.EXPECTATION_FAILED);
+        }
     }
 
     // 查询登录状态，浏览器访问： http://localhost:8100/api/user/isLogin
