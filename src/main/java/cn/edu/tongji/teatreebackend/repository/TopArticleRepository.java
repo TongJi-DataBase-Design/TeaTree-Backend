@@ -9,4 +9,9 @@ import java.util.List;
 public interface TopArticleRepository extends JpaRepository<TopArticleEntity, Integer> {
     @Query(value = "select * from top_article" , nativeQuery = true)
     List<TopArticleEntity> getAllTopArticles();
+
+    TopArticleEntity findFirstByArticleId(int articleId);
+
+    @Query(value = "select count(*) from top_article", nativeQuery = true)
+    int getTotalTopArticleAmount();
 }

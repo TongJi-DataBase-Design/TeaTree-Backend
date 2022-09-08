@@ -59,4 +59,22 @@ public class HomeController {
         return new ResponseEntity<>(articleService.getHomepageTopArticles(),
                 HttpStatus.OK);
     }
+
+    /**
+     * 添加新的全局置顶帖子
+     */
+    @RequestMapping(value = "/top", method = RequestMethod.POST)
+    public ResponseEntity<String> addHomepageTopArticles(int articleId) {
+        return new ResponseEntity<>(articleService.addHomepageTopArticle(articleId),
+                HttpStatus.OK);
+    }
+
+    /**
+     * 删除指定的全局置顶的帖子
+     */
+    @RequestMapping(value = "/top", method = RequestMethod.DELETE)
+    public ResponseEntity<Boolean> deleteHomepageTopArticle(int articleId) {
+        return new ResponseEntity<>(articleService.deleteHomepageTopArticle(articleId),
+                HttpStatus.OK);
+    }
 }

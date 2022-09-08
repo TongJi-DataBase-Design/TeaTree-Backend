@@ -187,9 +187,42 @@ public class ArticleServiceImplement implements ArticleService {
             HashMap<String, String> article = new HashMap<>();
             article.put("article_title", teaDistributionEntity.getArticleTitle());
             article.put("article_cover", teaDistributionEntity.getArticleCover());
+            article.put("article_abstract", teaDistributionEntity.getArticleAbstract());
             article.put("article_id", String.valueOf(topArticleEntity.getArticleId()));
             res.add(article);
         });
         return res;
+    }
+
+    public String addHomepageTopArticle(int articleId) {
+        // 先确认是否存在对应的id
+        TeaDistributionEntity teaDistribution = teaDistributionRepository.findFirstById(articleId);
+        if (teaDistribution == null) {
+            return "不存在对应的文章!";
+        }
+        // 确认该文章是否已经被置顶
+        TopArticleEntity topArticleEntity = topArticleRepository.findFirstByArticleId(articleId);
+        if (topArticleEntity != null) {
+            return "该文章已被置顶!";
+        }
+        // 确认置顶总数是否满足要求
+        int topArticleAmount = topArticleRepository.getTotalTopArticleAmount();
+        if (topArticleAmount >= 10) {
+            return "置顶总数已经达到10个!";
+        }
+        // 插入新的置顶帖
+        TopArticleEntity newTopArticle = new TopArticleEntity();
+        newTopArticle.setArticleId(articleId);
+        topArticleRepository.save(newTopArticle);
+        return "";
+    }
+
+    public Boolean deleteHomepageTopArticle(int articleId) {
+        TopArticleEntity topArticleEntity = topArticleRepository.findFirstByArticleId(articleId);
+        if (topArticleEntity == null) {
+            return false;
+        }
+        topArticleRepository.delete(topArticleEntity);
+        return true;
     }
 }

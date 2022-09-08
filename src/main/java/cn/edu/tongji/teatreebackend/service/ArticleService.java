@@ -25,4 +25,8 @@ public interface ArticleService {
     HashMap<String, Object> getHomepageArticles(int articleType);
 
     List<HashMap> getHomepageTopArticles();
+
+    String addHomepageTopArticle(int articleId);
+
+    Boolean deleteHomepageTopArticle(int articleId);
 }
