@@ -120,10 +120,16 @@ public class ArticleServiceImplement implements ArticleService {
         orders.add(isTopOrder);
         orders.add(timeOrder);
         Sort sort = Sort.by(orders);
-        Pageable pageable = PageRequest.of(searchConditionsDto.pageNo - 1,searchConditionsDto.pageSize,sort);
+        Pageable pageable = PageRequest.of(searchConditionsDto.pageNo - 1, searchConditionsDto.pageSize, sort);
         Map<String, Object> res = new HashMap<>();
-        List<TeaDistributionEntity> teaDistributionEntities = teaDistributionRepository
-                        .findAllByArticleTitleLikeAndArticleTypeAndTeaDirectionIn("%" + searchConditionsDto.keyword + "%",searchConditionsDto.articleType, searchConditionsDto.checkedDistributionGroup,pageable);
+        List<TeaDistributionEntity> teaDistributionEntities = null;
+        if (searchConditionsDto.articleType == 0) {
+            teaDistributionEntities = teaDistributionRepository
+                    .findAllByArticleTitleLikeAndArticleTypeAndTeaDirectionIn("%" + searchConditionsDto.keyword + "%", searchConditionsDto.articleType, searchConditionsDto.checkedDistributionGroup, pageable);
+        } else if (searchConditionsDto.articleType == 1) {
+            teaDistributionEntities = teaDistributionRepository
+                    .findAllByArticleTitleLikeAndArticleTypeAndBiologyTeaTypeIn("%" + searchConditionsDto.keyword + "%", searchConditionsDto.articleType, searchConditionsDto.checkedDistributionGroup, pageable);
+        }
         // 获取结果id
         List<Integer> postIds = new ArrayList<>();
         teaDistributionEntities.forEach((TeaDistributionEntity item) -> {
@@ -131,7 +137,7 @@ public class ArticleServiceImplement implements ArticleService {
         });
         res.put("id", postIds);
         List<TeaDistributionEntity> teaDistributions = teaDistributionRepository
-                .findAllByArticleTitleLikeAndArticleTypeAndTeaDirectionIn("%" + searchConditionsDto.keyword + "%",searchConditionsDto.articleType, searchConditionsDto.checkedDistributionGroup, PageRequest.of(0,Integer.MAX_VALUE));
+                .findAllByArticleTitleLikeAndArticleTypeAndTeaDirectionIn("%" + searchConditionsDto.keyword + "%", searchConditionsDto.articleType, searchConditionsDto.checkedDistributionGroup, PageRequest.of(0, Integer.MAX_VALUE));
         res.put("total", teaDistributions.size());
         return res;
     }
@@ -140,7 +146,12 @@ public class ArticleServiceImplement implements ArticleService {
     @Override
     public HashMap<String, Object> getArticleGroupsByArticleType(int articleType) {
         HashMap<String,Object> res = new HashMap<>();
-        res.put("articleGroups", teaDistributionRepository.getTeaDirections(articleType));
+        if(articleType == 0) {
+            res.put("articleGroups", teaDistributionRepository.getTeaDirections(articleType));
+        }
+        else if(articleType == 1){
+            res.put("articleGroups", teaDistributionRepository.getBiologyTeaTypes(articleType));
+        }
         return res;
     }
 
