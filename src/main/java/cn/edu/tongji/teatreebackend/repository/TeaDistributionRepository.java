@@ -19,13 +19,28 @@ public interface TeaDistributionRepository extends JpaRepository<TeaDistribution
 
     List<TeaDistributionEntity> findAllByArticleTitleLikeAndArticleTypeAndTeaDirectionIn(String articleTitle, int articleType, List<String> teaDirections, Pageable pageable);
 
-    List<TeaDistributionEntity> findAllByArticleTitleLikeAndArticleTypeAndBiologyTeaTypeIn(String articleTitle, int articleType, List<String> bilogyTeaType, Pageable pageable);
+    List<TeaDistributionEntity> findAllByArticleTitleLikeAndArticleTypeAndBiologyTeaTypeIn(String articleTitle, int articleType, List<String> biologyTeaType, Pageable pageable);
+
+    List<TeaDistributionEntity> findAllByArticleTitleLikeAndArticleTypeAndProtectionArticleTypeIn(String articleTitle, int articleType, List<String> protectionArticleType, Pageable pageable);
+
+    List<TeaDistributionEntity> findAllByArticleTitleLikeAndArticleTypeAndCultureArticleTypeIn(String articleTitle, int articleType, List<String> cultureArticleType, Pageable pageable);
+
+    List<TeaDistributionEntity> findAllByArticleTitleLikeAndArticleTypeAndIndustryArticleType(String articleTitle, int articleType, List<String> industryArticleType, Pageable pageable);
 
     @Query(value = "select distinct tea_direction from tea_distribution where article_type = ?1", nativeQuery = true)
     List<String> getTeaDirections(int articleType);
 
     @Query(value = "select distinct biology_tea_type from tea_distribution where article_type = ?1", nativeQuery = true)
     List<String> getBiologyTeaTypes(int articleType);
+
+    @Query(value = "select distinct protection_article_type from tea_distribution where article_type = ?1", nativeQuery = true)
+    List<String> getProtectionTeaTypes(int articleType);
+
+    @Query(value = "select distinct culture_article_type from tea_distribution where article_type = ?1", nativeQuery = true)
+    List<String> getCultureArticleTypes(int articleType);
+
+    @Query(value = "select distinct industry_article_type from tea_distribution where article_type = ?1", nativeQuery = true)
+    List<String> getIndustryArticleTypes(int articleType);
     
     @Query(value = "select * from tea_distribution where article_type = ?1 and is_top = 1", nativeQuery = true)
     List<TeaDistributionEntity> getTopArticles(int articleType);
